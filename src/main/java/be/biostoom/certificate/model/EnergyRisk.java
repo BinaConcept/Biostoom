@@ -1,16 +1,20 @@
 package be.biostoom.certificate.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity
 @Data
-public class EnergyRisk {
+@NoArgsConstructor
+public class EnergyRisk implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4772926797831589945L;
 	@Id
 	@Column(name="energy_risk_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +28,6 @@ public class EnergyRisk {
 	private boolean chemical = false;
 	private boolean gesses = false;
 	private boolean containedEnergy = false;
-	private boolean isPowerSwitchOn = false;
+	private boolean powerSwitchOn = false;
 
 }

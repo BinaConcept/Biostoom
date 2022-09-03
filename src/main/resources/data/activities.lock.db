@@ -1,6 +1,0 @@
-#FileLock
-#Thu Aug 25 17:07:06 CEST 2022
-server=192.168.0.6\:50573
-hostName=192.168.0.6
-method=file
-id=182d58ae836b1e501e35add8ca631978827f02bdd54
