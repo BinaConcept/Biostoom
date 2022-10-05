@@ -27,11 +27,6 @@ public class CompanyController {
 		return service.getAllCompanies();
 	}
 	
-	@PostMapping
-    public Company save(@RequestBody Company company){
-        return service.save(company);
-    }
-	
 	@PutMapping("/{id}")
     public Company update(@PathVariable long id, @RequestBody Company company){
         return service.update(id, company);

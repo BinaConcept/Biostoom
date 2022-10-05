@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -61,6 +62,9 @@ public class Permit implements Serializable {
 	@JsonIgnore
     private Set<StopPermit> stopPermits = new HashSet<StopPermit>();
 	
+	@Transient
+	private Long applicantId;
+	
 	@PrePersist
 	private void setActors() {
 
@@ -72,7 +76,5 @@ public class Permit implements Serializable {
 			stopPermit.setPermit(this);
 		});
 	}
-
-	
 		
 }

@@ -18,9 +18,9 @@ public class CompanyService {
 		return repository.findAll();
 	}
 
-	public Company save(Company company) {
+	public Long register(Company company) {
 
-		return repository.save(company);
+		return repository.save(company).getId();
 
 	}
 
@@ -36,5 +36,10 @@ public class CompanyService {
 		// TODO Auto-generated method stub
 		repository.deleteById(id);
 		return "deleted";
+	}
+
+	public Company getCompanyByEmail(String email) {
+		// TODO Auto-generated method stub
+		return repository.findByEmailIgnoreCase(email);
 	}
 }

@@ -8,4 +8,6 @@ import be.biostoom.certificate.model.Company;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
+	Company findByEmailIgnoreCase(String email);
+
 }

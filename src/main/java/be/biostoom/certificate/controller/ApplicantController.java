@@ -11,31 +11,28 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("${api.prefix}/applicant")
 public class ApplicantController {
-    
-    @Autowired
-    ApplicantService service;
+
+	@Autowired
+	ApplicantService service;
 
 //    @GetMapping
 //    public List<Permit> getPermits(){
 //        return service.getPermits();
 //    }
-    
-    
-  @GetMapping("/site-introduction")
-  public SiteIntroduction setSiteIntroduction(){
-      return service.getSiteIntroduction();
-  }
 
-    @PostMapping("/permit-start")
-    public Permit save(@RequestBody Permit permit){
-        return service.save(permit);
-    }
-    
-    @PutMapping("/permit-stop")
-    public String stopPermit(@RequestBody ApplicantClosingDTO dto){
-      return service.applicantClosing(dto);
-    }
-    
-    
-    
+	@GetMapping("/site-introduction")
+	public SiteIntroduction setSiteIntroduction() {
+		return service.getSiteIntroduction();
+	}
+
+	@PostMapping("/start-permit")
+	public Permit save(@RequestBody Permit permit) {
+		return service.save(permit);
+	}
+
+	@PutMapping("/stop-permit")
+	public String stopPermit(@RequestBody ApplicantClosingDTO dto) {
+		return service.applicantClosing(dto);
+	}
+
 }

@@ -1,0 +1,9 @@
+apiVersion : v1
+kind : ConfigMap
+metadata:
+  name : db-config
+data:
+  host: 162.241.24.149:3306
+  name: khanwebd_bandb
+#  host : mysql
+#  dbName: javatechie

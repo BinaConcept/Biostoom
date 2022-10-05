@@ -15,6 +15,8 @@ public class ApplicantClosingDTO implements Serializable {
 	
 	private long permitId;
 	
+	private long applicantId;
+	
 	private boolean isWorkZoneChecked;
 	
 	private boolean isLottoRemoved;

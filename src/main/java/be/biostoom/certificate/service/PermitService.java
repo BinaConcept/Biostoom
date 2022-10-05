@@ -1,12 +1,13 @@
 package be.biostoom.certificate.service;
 
 import be.biostoom.certificate.enumerated.PermitStatus;
+import be.biostoom.certificate.model.Employee;
 import be.biostoom.certificate.model.Permit;
 import be.biostoom.certificate.model.StartPermit;
 import be.biostoom.certificate.model.StopPermit;
 import be.biostoom.certificate.model.dto.ApplicantClosingDTO;
 import be.biostoom.certificate.model.dto.AssistantClosingDTO;
-import be.biostoom.certificate.model.dto.WorkFlowDTO;
+import be.biostoom.certificate.model.dto.RestarterDTO;
 import be.biostoom.certificate.repository.PermitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,18 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PermitService {
+public class PermitService extends AbstractEmployeeService {
 	@Autowired
 	PermitRepository repository;
+	
+	@Autowired
+	EmployeeService employeeservice;
 
 	public List<Permit> getPermits() {
 		return repository.findAll();
 	}
 
-	public Permit save(Permit permit) {
+	public Permit startPermit(Permit permit) {
 		preparePermit(permit);
 		return repository.save(permit);
 	}
@@ -36,7 +40,7 @@ public class PermitService {
 			startPermit.setAssistant(null);
 			startPermit.setStatus(PermitStatus.PENDING);
 			// TODO take the creater from logged in users or sending id of the user.
-//    		startPermit.setApplicant(null);
+    		startPermit.setApplicant(getEmployee(permit.getApplicantId()));
 			startPermit.setStartDate(new Date());
 			permit.getStartPermits().add(startPermit);
 		}
@@ -62,6 +66,7 @@ public class PermitService {
 			StartPermit startPermit = new StartPermit();
 
 			startPermit.setPermit(permit);
+			Employee assistant = employeeservice.getEmployee(null) ;
 			startPermit.setAssistant(null);
 			startPermit.setApplicant(null);
 			startPermit.setStatus(PermitStatus.RESTARTED);
@@ -106,7 +111,7 @@ public class PermitService {
 		return repository.findById(id).get();
 	}
 
-	public List<Permit> startsPermit(WorkFlowDTO dto) {
+	public List<Permit> startPermit(RestarterDTO dto) {
 		Permit permit = repository.findById(dto.getPermitId()).get();
 		permit.setStatus(dto.getStatus());
 		preparePermit(permit);
@@ -126,8 +131,10 @@ public class PermitService {
 		StopPermit stopPermit = permit.getStopPermits().stream().filter(x -> x.getAssistant() == null)
 				.findFirst().get();
 		
+		Employee assistant = employeeservice.getEmployee(dto.getAssistantId());
+
 		// TODO take the assistant from logged in users or sending id of the user.
-		stopPermit.setAssistant(null);
+		stopPermit.setAssistant(assistant);
 		
 		stopPermit.setAssistantClosingResposibility(dto.mapToClass());
 		
@@ -151,11 +158,13 @@ public class PermitService {
 		
 		Permit permit = repository.findById(dto.getPermitId()).get();
 		
+		Employee applicant = employeeservice.getEmployee(dto.getApplicantId());
+		
 		StopPermit stopPermit = new StopPermit();
 		
 		stopPermit.setPermit(permit);
-		// TODO take the creater from logged in users or sending id of the user.
-		stopPermit.setApplicant(null);
+		
+		stopPermit.setApplicant(applicant);
 		
 		stopPermit.setEndDate(new Date());
 		

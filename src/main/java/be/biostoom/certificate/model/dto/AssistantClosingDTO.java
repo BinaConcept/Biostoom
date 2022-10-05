@@ -19,6 +19,8 @@ public class AssistantClosingDTO  implements Serializable{
 
 	private long permitId;
 	
+	private long assistantId;
+	
 	private boolean isCompleted;
 	
 	private boolean safeguardsReinstalled;

@@ -22,7 +22,7 @@ public class ApplicantService {
 	}
 
 	public Permit save(Permit permit) {
-		return permitService.save(permit);
+		return permitService.startPermit(permit);
 	}
 
 	public String applicantClosing(ApplicantClosingDTO dto) {

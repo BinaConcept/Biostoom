@@ -1,6 +1,7 @@
 package be.biostoom.certificate.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,8 +60,12 @@ public class Company implements Serializable{
 
 	private boolean blocked;
 	
+	private String password;
+	
+	private Boolean isBioostoom;
+
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="company")
-    private Set<Employee> employees;
+    private Set<Employee> employees = new HashSet<>();
 	
 	@PrePersist
 	private void setEmployeesCompany() {
