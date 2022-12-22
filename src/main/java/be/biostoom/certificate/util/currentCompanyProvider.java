@@ -1,25 +1,25 @@
-package eu.europa.ec.jrc.milc.utility;
+package be.biostoom.certificate.util;
 
-import eu.europa.ec.jrc.milc.backoffice.service.MILCUserService;
-import eu.europa.ec.jrc.milc.domain.MILCUser;
+import be.biostoom.certificate.model.Company;
+import be.biostoom.certificate.service.CompanyService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CurrentUserProvider implements ApplicationContextAware {
+public class currentCompanyProvider implements ApplicationContextAware {
 
 	ApplicationContext context;
-	static MILCUserService service;
+	static CompanyService service;
 
-	public static MILCUser get(){
-		return service.getCurrentUser();
+	public static Company getCompany(Long id){
+		return service.getCompany(id);
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.context = applicationContext;
-		service = this.context.getBean(MILCUserService.class);
+		service = this.context.getBean(CompanyService.class);
 	}
 }

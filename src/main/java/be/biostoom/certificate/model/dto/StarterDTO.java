@@ -7,7 +7,7 @@ import be.biostoom.certificate.enumerated.PermitStatus;
 import lombok.Data;
 
 @Data
-public class RestarterDTO implements Serializable {
+public class StarterDTO implements Serializable {
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class RestarterDTO implements Serializable {
 	
 	private long permitId;
 	
-	private long assistantId;
+	private long employeeId;
 	 
 	private PermitStatus status;
 

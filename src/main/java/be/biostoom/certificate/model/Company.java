@@ -16,11 +16,15 @@ import javax.persistence.PrePersist;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -64,13 +68,23 @@ public class Company implements Serializable{
 	
 	private Boolean isBioostoom;
 
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="company")
+	@JsonIgnore
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true, mappedBy="company")
     private Set<Employee> employees = new HashSet<>();
-	
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+	@Fetch(value = FetchMode.SUBSELECT)
+	Set<Permit> permits = new HashSet<>();
+
 	@PrePersist
-	private void setEmployeesCompany() {
+	private void setOnSave() {
 		this.employees.forEach(emp->{
 			emp.setCompany(this);
+		});
+
+		this.permits.forEach(permit -> {
+			permit.setCompany(this);
 		});
 	}
 

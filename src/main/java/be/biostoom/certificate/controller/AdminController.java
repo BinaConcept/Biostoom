@@ -2,8 +2,11 @@ package be.biostoom.certificate.controller;
 
 import be.biostoom.certificate.model.Permit;
 import be.biostoom.certificate.model.dto.AssistantClosingDTO;
-import be.biostoom.certificate.model.dto.RestarterDTO;
+import be.biostoom.certificate.model.dto.PermitOverviewDTO;
+import be.biostoom.certificate.model.dto.StarterDTO;
+import be.biostoom.certificate.model.parameters.PermitQueryParameters;
 import be.biostoom.certificate.service.PermitService;
+import be.biostoom.certificate.util.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +19,8 @@ public class AdminController {
     PermitService service;
 
     @GetMapping
-    public List<Permit> getPermits(){
-        return service.getPermits();
+    public PaginatedResponse<PermitOverviewDTO> getAllPermits(PermitQueryParameters parameters) {
+        return service.getAllPermits(parameters.getMap());
     }
 
     @GetMapping("/{id}")
@@ -26,13 +29,13 @@ public class AdminController {
     }
     
     @PutMapping("/start")
-    public List<Permit> startPermit(@RequestBody RestarterDTO dto){
-      return service.startPermit(dto);
+    public Long startPermit(@RequestBody StarterDTO dto){
+      return service.adminStartPermit(dto);
     }
     
     @PutMapping("/stop")
-    public List<Permit> stopPermit(@RequestBody AssistantClosingDTO dto){
-      return service.stopPermit(dto);
+    public Long stopPermit(@RequestBody AssistantClosingDTO dto){
+      return service.adminStopsPermit(dto);
     }
     
     @DeleteMapping("/{id}")

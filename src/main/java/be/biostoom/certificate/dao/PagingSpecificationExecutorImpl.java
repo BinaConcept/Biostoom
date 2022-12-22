@@ -1,7 +1,6 @@
-package eu.europa.ec.jrc.milc.dao;
-
-import eu.europa.ec.jrc.milc.specification.MILCSpecification;
-import eu.europa.ec.jrc.milc.utility.PaginatedResponse;
+package be.biostoom.certificate.dao;
+import be.biostoom.certificate.specification.BiostoomSpecification;
+import be.biostoom.certificate.util.PaginatedResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -64,7 +63,7 @@ public class PagingSpecificationExecutorImpl<T, ID> implements PagingSpecificati
 	}
 
 	@Override
-	public PaginatedResponse<T> findAll(Class<T> clazz, MILCSpecification<T> specification, Pageable pageRequest) {
+	public PaginatedResponse<T> findAll(Class<T> clazz, BiostoomSpecification<T> specification, Pageable pageRequest) {
 		Page<ID> idPage = this.idPage(clazz, specification, pageRequest);
 
 		CriteriaQuery<T> query = builder.createQuery(clazz);

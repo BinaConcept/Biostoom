@@ -1,24 +1,13 @@
 package be.biostoom.certificate.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import be.biostoom.certificate.enumerated.PermitStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -28,6 +17,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Permit implements Serializable {
 	/**
 	 * 
@@ -42,7 +32,7 @@ public class Permit implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private PermitStatus status;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "activity_id", referencedColumnName = "activity_id")
 	private Activity activity;
 
@@ -61,10 +51,19 @@ public class Permit implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="permit")
 	@JsonIgnore
     private Set<StopPermit> stopPermits = new HashSet<StopPermit>();
+
+	@JsonIgnore
+	@EqualsAndHashCode.Exclude
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COMPANY_ID")
+	Company company;
 	
 	@Transient
 	private Long applicantId;
-	
+
+	@Transient
+	private Long companyId;
+
 	@PrePersist
 	private void setActors() {
 

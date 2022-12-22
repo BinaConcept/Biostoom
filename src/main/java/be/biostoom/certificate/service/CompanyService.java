@@ -18,10 +18,9 @@ public class CompanyService {
 		return repository.findAll();
 	}
 
+
 	public Long register(Company company) {
-
 		return repository.save(company).getId();
-
 	}
 
 	public Company getCompany(Long id) {

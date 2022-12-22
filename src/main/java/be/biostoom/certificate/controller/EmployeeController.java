@@ -2,6 +2,9 @@ package be.biostoom.certificate.controller;
 
 import java.util.List;
 
+import be.biostoom.certificate.model.Permit;
+import be.biostoom.certificate.model.parameters.PermitQueryParameters;
+import be.biostoom.certificate.util.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +23,7 @@ import be.biostoom.certificate.service.EmployeeService;
 public class EmployeeController {
 	@Autowired
 	EmployeeService service;
-	
-	@GetMapping
-	public List<Employee> getAllCompanies(){
-		return service.getAllEmployees();
-	}
-	
+
 	@PostMapping
     public Employee save(@RequestBody Employee employee){
         return service.save(employee);

@@ -1,14 +1,13 @@
-package eu.europa.ec.jrc.milc.utility;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+package be.biostoom.certificate.util;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class PageRequestExtractor {
 	public static Pageable extract(Map<String, Object> parameters) {

@@ -1,34 +1,35 @@
-package eu.europa.ec.jrc.milc.specification;
+package be.biostoom.certificate.specification;
 
-import eu.europa.ec.jrc.milc.domain.MILCUser;
-import eu.europa.ec.jrc.milc.utility.CurrentUserProvider;
-import eu.europa.ec.jrc.milc.utility.QueryPredicateBuilder;
+import be.biostoom.certificate.model.Company;
+import be.biostoom.certificate.util.currentCompanyProvider;
+import be.biostoom.certificate.util.QueryPredicateBuilder;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMILCSpecification<T> implements MILCSpecification<T> {
+public abstract class AbstractBiostoomSpecification<T> implements BiostoomSpecification<T> {
 
 	private static final long serialVersionUID = 3736157462129598220L;
 	Map<String, Object> parameters;
 
-	MILCUser user;
+	Company company;
 	boolean filtered = false;
 	boolean distinct = false;
 
 	@Override
-	public MILCSpecification<T> distinct() {
+	public BiostoomSpecification<T> distinct() {
 		distinct = true;
 		return this;
 	}
 
 	@Override
-	public MILCSpecification<T> withAccessFilter(){
+	public BiostoomSpecification<T> withAccessFilter(){
 		this.filtered = true;
-		this.user = CurrentUserProvider.get();
+		Object companyId = parameters.get("companyId");
+		this.company = currentCompanyProvider.getCompany((long)companyId);
+		parameters.remove("companyId");
 		return this;
 	}
 
@@ -38,7 +39,7 @@ public abstract class AbstractMILCSpecification<T> implements MILCSpecification<
 		Predicate predicate = QueryPredicateBuilder.build(fieldMap, parameters);
 		query.distinct(distinct);
 
-		return filtered && user != null ?
+		return filtered && company != null ?
 				builder.and(predicate, this.filterPredicate(root, builder)) :
 				predicate;
 	}

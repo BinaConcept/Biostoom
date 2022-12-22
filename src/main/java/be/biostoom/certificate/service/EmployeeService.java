@@ -1,10 +1,16 @@
 package be.biostoom.certificate.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import be.biostoom.certificate.model.Company;
+import be.biostoom.certificate.model.Permit;
+import be.biostoom.certificate.specification.PermitSpecification;
+import be.biostoom.certificate.util.PageRequestExtractor;
+import be.biostoom.certificate.util.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import be.biostoom.certificate.model.Employee;

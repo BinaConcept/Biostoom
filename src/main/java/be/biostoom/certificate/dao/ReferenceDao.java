@@ -1,4 +1,4 @@
-package eu.europa.ec.jrc.milc.dao;
+package be.biostoom.certificate.dao;
 
 import java.util.Optional;
 

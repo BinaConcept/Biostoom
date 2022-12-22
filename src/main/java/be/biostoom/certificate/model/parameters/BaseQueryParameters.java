@@ -1,13 +1,13 @@
-package eu.europa.ec.jrc.milc.domain.dto.parameters;
+package be.biostoom.certificate.model.parameters;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.springframework.data.domain.Sort.Direction;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.data.domain.Sort.Direction;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
@@ -19,6 +19,8 @@ public class BaseQueryParameters implements Serializable {
 	Integer page;
 	String sort;
 	Direction direction;
+
+	@JsonIgnore
 	Map<String, Object> map = new HashMap<>();
 	
 	public void setQuery(String query) {
@@ -46,8 +48,8 @@ public class BaseQueryParameters implements Serializable {
 		this.direction = direction;
 	}
 
+	@JsonIgnore
 	public boolean isEmpty(){
 		return map.size()==0;
 	}
-
 }

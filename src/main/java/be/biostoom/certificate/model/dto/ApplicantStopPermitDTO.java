@@ -6,7 +6,7 @@ import be.biostoom.certificate.model.ApplicantClosingResposibility;
 import lombok.Data;
 
 @Data
-public class ApplicantClosingDTO implements Serializable {
+public class ApplicantStopPermitDTO implements Serializable {
 
 	/**
 	 * 
