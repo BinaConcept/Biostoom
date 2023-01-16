@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import be.biostoom.certificate.model.Employee;
 import be.biostoom.certificate.service.EmployeeService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("${api.prefix}/employees")
 public class EmployeeController {
@@ -25,7 +27,8 @@ public class EmployeeController {
 	EmployeeService service;
 
 	@PostMapping
-    public Employee save(@RequestBody Employee employee){
+    public Employee save(@RequestBody @Valid Employee employee)
+    {
         return service.save(employee);
     }
 	

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,13 +36,17 @@ public class Employee implements Serializable {
 	@Column(name="employee_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
+	@NotBlank(message = "Voornaam is een verplicht veld.")
 	private String firstName;
-	
+
+	@NotBlank(message = "Achternaam is een verplicht veld.")
 	private String lastName;
-	
+
+	@Email(message = "Ongeldig e-mail.")
 	private String email;
-	
+
+	@Pattern(regexp = "^\\d{10}$", message = "Ongeldig gsmnummer.")
 	private String gsm;
 	
 	@Transient
@@ -51,7 +56,7 @@ public class Employee implements Serializable {
 	@JoinColumn(name="company_id")
 	@JsonIgnore
 	private Company company;
-	
+
 	private boolean isActive;
 	
 	private boolean hasReadSiteIntroduction;

@@ -50,6 +50,7 @@ public class PermitService extends AbstractEmployeeService {
 
     public Permit getPermit(long id) {
         Optional<Permit> permit = repository.findByIdWithAllRelationships(id);
+
         return permit.get();
     }
 

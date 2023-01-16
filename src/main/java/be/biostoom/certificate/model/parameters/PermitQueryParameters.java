@@ -13,7 +13,6 @@ import java.util.Date;
 public class PermitQueryParameters extends BaseQueryParameters implements Serializable {
 	private static final long serialVersionUID = 521105294636863172L;
 	PermitStatus status;
-	DateRange permitRange;
 	Long companyId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -25,11 +24,6 @@ public class PermitQueryParameters extends BaseQueryParameters implements Serial
 	public void setStatus(PermitStatus status) {
 		this.map.put("status", status);
 		this.status = status;
-	}
-
-	public void setPermitRange(DateRange permitRange) {
-		this.map.put("permitRange", permitRange);
-		this.permitRange = permitRange;
 	}
 
 	public void setStartDate(Date startDate) {

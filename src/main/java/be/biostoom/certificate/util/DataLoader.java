@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner {
         arsal.setId(1);
         arsal.setFirstName("Arsal");
         arsal.setLastName("Bulent");
-        arsal.setGsm("0454 56 55 55");
+        arsal.setGsm("0494527365");
         arsal.setEmail("arsal@biostoom.be");
         arsal.setHasReadSiteIntroduction(true);
 
@@ -34,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
         atif.setId(1);
         atif.setFirstName("Atif");
         atif.setLastName("Khan");
-        atif.setGsm("0454 56 55 55");
+        atif.setGsm("0494527368");
         atif.setEmail("external@external.be");
         atif.setHasReadSiteIntroduction(true);
 

@@ -5,6 +5,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import be.biostoom.certificate.enumerated.PermitStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,15 +32,18 @@ public class Permit implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private PermitStatus status;
-	
+
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "activity_id", referencedColumnName = "activity_id")
 	private Activity activity;
 
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "risk_assesment_id", referencedColumnName = "risk_assesment_id")
 	private RiskAssesment riskAssesment;
-	
+
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "precautionary_measures_id", referencedColumnName = "precautionary_measures_id")
 	private PrecautionaryMeasures precautionaryMeasures;

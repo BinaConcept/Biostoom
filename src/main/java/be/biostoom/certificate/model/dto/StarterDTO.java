@@ -2,7 +2,6 @@ package be.biostoom.certificate.model.dto;
 
 import java.io.Serializable;
 
-
 import be.biostoom.certificate.enumerated.PermitStatus;
 import lombok.Data;
 
