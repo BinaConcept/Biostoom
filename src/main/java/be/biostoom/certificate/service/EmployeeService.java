@@ -26,8 +26,11 @@ public class EmployeeService {
 	CompanyService companyService;
 
 	public List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return repository.findAll();
+		List<Employee> employees = repository.findAll();
+		employees.forEach(employee -> {
+			employee.setCompany_id(employee.getCompany().getId());
+		});
+		return employees;
 	}
 
 	public Employee save(Employee employee) {
