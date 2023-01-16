@@ -41,12 +41,18 @@ public class EmployeeController {
     public Employee getEmployee(@PathVariable Long id){
         return service.getEmployee(id);
     }
-    
+
+    @GetMapping("/company/{id}")
+    public List<Employee> getEmployeesByCompanyId(@PathVariable Long id){
+
+        return service.getEmployeesByCompanyId(id);
+
+    }
     @GetMapping("/is-exist/{email}")
     public Boolean getEmployee(@PathVariable String email){
         return service.isExist(email);
     }
-    
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable long id){
     	return service.delete(id);

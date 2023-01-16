@@ -29,6 +29,7 @@ public class DataLoader implements CommandLineRunner {
         arsal.setGsm("0494527365");
         arsal.setEmail("arsal@biostoom.be");
         arsal.setHasReadSiteIntroduction(true);
+        arsal.setCompany_id(1);
 
         Employee atif = new Employee();
         atif.setId(1);
@@ -37,17 +38,18 @@ public class DataLoader implements CommandLineRunner {
         atif.setGsm("0494527368");
         atif.setEmail("external@external.be");
         atif.setHasReadSiteIntroduction(true);
+        atif.setCompany_id(2);
 
         Company biostoom = new Company(1,"Biostoom","somestreetname","24",
                 "","2400","Beringen","Belgie","013 54 65 57", "095 86 88 59",
-                "023 98 98 98", "email@biostoom.be", false, "biostoom", true,new HashSet<>(),new HashSet<>());
+                "023 98 98 98", "email@biostoom.be", false, "biostoom", true,new HashSet<>());
 
         Company external = new Company(2,"External","somestreetname","24",
                 "","2400","Mol","Belgie","013 54 65 57", "095 86 88 59",
-                "023 98 98 98", "email@external.be", false, "external", false,new HashSet<>(),new HashSet<>());
-        Long biostoomId =   companyService.register(biostoom);
+                "023 98 98 98", "email@external.be", false, "external", false,new HashSet<>());
+        Long biostoomId = companyService.register(biostoom);
 
-        Long externalId =   companyService.register(external);
+        Long externalId = companyService.register(external);
 
         atif.setCompany_id(externalId);
         arsal.setCompany_id(biostoomId);

@@ -27,15 +27,13 @@ public class EmployeeService {
 
 	public List<Employee> getAllEmployees() {
 		List<Employee> employees = repository.findAll();
-		employees.forEach(employee -> {
-			employee.setCompany_id(employee.getCompany().getId());
-		});
+
 		return employees;
 	}
 
 	public Employee save(Employee employee) {
 		Company company = companyService.getCompany(employee.getCompany_id());
-		employee.setCompany(company);
+		employee.setCompany_id(company.getId());
 		return repository.save(employee);
 	}
 
@@ -50,7 +48,6 @@ public class EmployeeService {
 
 	public Employee getEmployee(Long id) {
 		Optional<Employee> retrieved = repository.findById(id);
-		Employee retrieved1 = retrieved.get();
 		return repository.findById(id).get();
 	}
 
@@ -59,4 +56,7 @@ public class EmployeeService {
 		return "deleted";
 	}
 
+	public List<Employee> getEmployeesByCompanyId(Long id) {
+		return repository.finAllByCompanyId(id);
+	}
 }
