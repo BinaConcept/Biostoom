@@ -2,6 +2,7 @@ package be.biostoom.certificate.controller;
 
 import java.util.List;
 
+import be.biostoom.certificate.model.dto.ListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,11 @@ public class CompanyController {
 	public List<Company> getAllCompanies(){
 		return service.getAllCompanies();
 	}
-	
+
+    @GetMapping("/list-items")
+    public List<ListItem> getCompaniesListItems(){
+        return service.getCompaniesListItems();
+    }
 	@PutMapping("/{id}")
     public Company update(@PathVariable long id, @RequestBody Company company){
         return service.update(id, company);

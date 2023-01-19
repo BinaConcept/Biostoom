@@ -69,12 +69,19 @@ public class Company implements Serializable{
 	private Boolean isBioostoom;
 
 	@JsonIgnore
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true, mappedBy="company")
+    private Set<Employee> employees = new HashSet<>();
+
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	Set<Permit> permits = new HashSet<>();
 
 	@PrePersist
 	private void setOnSave() {
+		this.employees.forEach(emp->{
+			emp.setCompany(this);
+		});
 
 		this.permits.forEach(permit -> {
 			permit.setCompany(this);

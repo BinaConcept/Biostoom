@@ -1,6 +1,8 @@
 package be.biostoom.certificate.advice;
 
+import be.biostoom.certificate.model.dto.Error;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,5 +24,13 @@ public class AppExceptionHandler {
         });
 
         return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Error handelIllegalArgument(IllegalArgumentException ex) {
+        String msg = ex.getMessage();
+        Error error = new Error(msg);
+        return error;
     }
 }

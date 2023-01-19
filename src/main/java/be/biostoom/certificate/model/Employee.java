@@ -48,8 +48,14 @@ public class Employee implements Serializable {
 
 	@Pattern(regexp = "^\\d{10}$", message = "Ongeldig gsmnummer.")
 	private String gsm;
-	
-	private long company_id;
+
+	@Transient
+	private long companyId;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="company_id")
+	@JsonIgnore
+	private Company company;
 
 	private boolean isActive;
 	

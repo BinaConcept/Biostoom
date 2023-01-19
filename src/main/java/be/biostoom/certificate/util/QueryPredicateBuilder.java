@@ -35,7 +35,9 @@ public class QueryPredicateBuilder {
 		if(parameters.containsKey("query"))
 			fieldMap
 					.values()
-					.forEach(path -> predicates.add(getTypedPredicate((String) parameters.get("query"),path.toString(), path)));
+					.forEach(path -> predicates.add(getTypedPredicate(parameters.get("query"),"query", path)));
+
+//					.forEach(path -> predicates.add(getTypedPredicate((String) parameters.get("query"),path.toString(), path)));
 
 		return predicates.size() > 0 ?
 				builder.or(predicates.toArray(new Predicate[0])) :

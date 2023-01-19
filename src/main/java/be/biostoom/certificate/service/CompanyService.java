@@ -2,6 +2,7 @@ package be.biostoom.certificate.service;
 
 import java.util.List;
 
+import be.biostoom.certificate.model.dto.ListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,9 @@ public class CompanyService {
 	public Company getCompanyByEmail(String email) {
 		// TODO Auto-generated method stub
 		return repository.findByEmailIgnoreCase(email);
+	}
+
+	public List<ListItem> getCompaniesListItems() {
+		return repository.getCompaniesListItems();
 	}
 }

@@ -3,6 +3,10 @@ package be.biostoom.certificate.controller;
 import java.util.List;
 
 import be.biostoom.certificate.model.Permit;
+import be.biostoom.certificate.model.dto.EmployeeOverviewDTO;
+import be.biostoom.certificate.model.dto.ListItem;
+import be.biostoom.certificate.model.dto.PermitOverviewDTO;
+import be.biostoom.certificate.model.parameters.EmployeeQueryParameters;
 import be.biostoom.certificate.model.parameters.PermitQueryParameters;
 import be.biostoom.certificate.util.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,11 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService service;
 
+
+    @GetMapping
+    public PaginatedResponse<EmployeeOverviewDTO> getAllEmployees(EmployeeQueryParameters parameters) {
+        return service.getAllEmployees(parameters.getMap());
+    }
 	@PostMapping
     public Employee save(@RequestBody @Valid Employee employee)
     {
@@ -43,10 +52,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/company/{id}")
-    public List<Employee> getEmployeesByCompanyId(@PathVariable Long id){
-
+    public List<ListItem> getEmployeesByCompanyId(@PathVariable Long id){
         return service.getEmployeesByCompanyId(id);
-
     }
     @GetMapping("/is-exist/{email}")
     public Boolean getEmployee(@PathVariable String email){

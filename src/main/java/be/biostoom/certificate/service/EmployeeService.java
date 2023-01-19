@@ -6,6 +6,10 @@ import java.util.Optional;
 
 import be.biostoom.certificate.model.Company;
 import be.biostoom.certificate.model.Permit;
+import be.biostoom.certificate.model.dto.EmployeeOverviewDTO;
+import be.biostoom.certificate.model.dto.ListItem;
+import be.biostoom.certificate.model.dto.PermitOverviewDTO;
+import be.biostoom.certificate.specification.EmployeeSpecification;
 import be.biostoom.certificate.specification.PermitSpecification;
 import be.biostoom.certificate.util.PageRequestExtractor;
 import be.biostoom.certificate.util.PaginatedResponse;
@@ -25,20 +29,21 @@ public class EmployeeService {
 	@Autowired
 	CompanyService companyService;
 
-	public List<Employee> getAllEmployees() {
-		List<Employee> employees = repository.findAll();
-
-		return employees;
-	}
 
 	public Employee save(Employee employee) {
-		Company company = companyService.getCompany(employee.getCompany_id());
-		employee.setCompany_id(company.getId());
-		return repository.save(employee);
+		if(isExist(employee.getEmail()))
+			throw new IllegalArgumentException("Deze gebruiker is reeds gekend");
+		Company company = companyService.getCompany(employee.getCompanyId());
+		employee.setCompany(company);
+		Employee savedEmployee = repository.save(employee);
+		savedEmployee.setCompanyId(company.getId());
+		return savedEmployee;
 	}
 
 	public Employee update(long id, Employee employee) {
-		return repository.save(employee);
+		Employee savedEmployee = repository.save(employee);
+		savedEmployee.setCompanyId(savedEmployee.getCompany().getId());
+		return savedEmployee;
 	}
 
 	public boolean isExist(String email) {
@@ -47,8 +52,9 @@ public class EmployeeService {
 	}
 
 	public Employee getEmployee(Long id) {
-		Optional<Employee> retrieved = repository.findById(id);
-		return repository.findById(id).get();
+		Employee savedEmployee = repository.findById(id).get();
+		savedEmployee.setCompanyId(savedEmployee.getCompany().getId());
+		return savedEmployee;
 	}
 
 	public String delete(long id) {
@@ -56,7 +62,21 @@ public class EmployeeService {
 		return "deleted";
 	}
 
-	public List<Employee> getEmployeesByCompanyId(Long id) {
-		return repository.finAllByCompanyId(id);
+	public List<ListItem> getEmployeesByCompanyId(Long id) {
+		List<ListItem> employees = repository.finAllByCompanyId(id);
+		return employees;
+	}
+
+	private void prepareCompanyIds(List<Employee> employees){
+		employees.forEach(employee -> {
+			employee.setCompanyId(employee.getCompany().getId());
+		});
+	}
+
+	public PaginatedResponse<EmployeeOverviewDTO> getAllEmployees(Map<String, Object> parameters) {
+		Pageable pageRequest = PageRequestExtractor.extract(parameters);
+		PaginatedResponse<Employee> response = repository.findAll(Employee.class, EmployeeSpecification.forParams(parameters).withAccessFilter(), pageRequest);
+
+		return response.mapTo(EmployeeOverviewDTO::new);
 	}
 }
