@@ -2,6 +2,7 @@ package be.biostoom.certificate.model;
 
 import javax.persistence.*;
 
+import be.biostoom.certificate.model.dto.PermitStarterDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import be.biostoom.certificate.enumerated.PermitStatus;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,11 +49,18 @@ public class Permit implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "precautionary_measures_id", referencedColumnName = "precautionary_measures_id")
 	private PrecautionaryMeasures precautionaryMeasures;
-	
+
+
+	@JsonIgnore
+	@EqualsAndHashCode.Exclude
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "location_id")
+	private Location location;
+
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="permit")
 	@JsonIgnore
     private Set<StartPermit> startPermits = new HashSet<StartPermit>();
-	
+
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true,mappedBy="permit")
 	@JsonIgnore
     private Set<StopPermit> stopPermits = new HashSet<StopPermit>();
@@ -61,12 +70,21 @@ public class Permit implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COMPANY_ID")
 	Company company;
-	
+
 	@Transient
 	private Long applicantId;
 
 	@Transient
 	private Long companyId;
+
+	@Transient
+	private Long locationId;
+
+	@Transient
+	private Date startDate;
+
+	@Transient
+	private Date endDate;
 
 	@PrePersist
 	private void setActors() {

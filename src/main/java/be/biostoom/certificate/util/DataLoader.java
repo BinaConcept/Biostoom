@@ -1,16 +1,17 @@
 package be.biostoom.certificate.util;
 
-import be.biostoom.certificate.model.Activity;
-import be.biostoom.certificate.model.Company;
-import be.biostoom.certificate.model.Employee;
-import be.biostoom.certificate.model.Permit;
+import be.biostoom.certificate.model.*;
+import be.biostoom.certificate.repository.LocationRepository;
 import be.biostoom.certificate.service.CompanyService;
 import be.biostoom.certificate.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -20,6 +21,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private EmployeeService employeeService;
 
+
+    @Autowired
+    LocationRepository locationRepository;
 
     public void insertCompany() {
         Employee arsal = new Employee();
@@ -57,9 +61,20 @@ public class DataLoader implements CommandLineRunner {
 
     }
 
+    public void insertLocations(){
+        List<Location> locations = new ArrayList<>(Arrays.asList(
+                new Location((long) 1, "Boiler ", new HashSet<>()),
+                new Location((long) 3, "Buiten Terrein ", new HashSet<>()),
+                new Location((long)4, "Buiten Installatie", new HashSet<>()),
+                new Location((long)5, "Voor Behandeling", new HashSet<>())
+        ));
+        locationRepository.saveAll(locations);
+    }
+
     @Override
     public void run(String... args) throws Exception {
         insertCompany();
+        insertLocations();
     }
 
 }

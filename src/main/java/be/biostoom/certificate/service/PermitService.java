@@ -5,7 +5,8 @@ import be.biostoom.certificate.model.*;
 import be.biostoom.certificate.model.dto.ApplicantStopPermitDTO;
 import be.biostoom.certificate.model.dto.AssistantClosingDTO;
 import be.biostoom.certificate.model.dto.PermitOverviewDTO;
-import be.biostoom.certificate.model.dto.StarterDTO;
+import be.biostoom.certificate.model.dto.PermitStarterDTO;
+import be.biostoom.certificate.repository.LocationRepository;
 import be.biostoom.certificate.repository.PermitRepository;
 import be.biostoom.certificate.specification.PermitSpecification;
 import be.biostoom.certificate.util.PageRequestExtractor;
@@ -27,6 +28,9 @@ public class PermitService extends AbstractEmployeeService {
     @Autowired
     CompanyService companyService;
 
+    @Autowired
+    LocationRepository locationRepository;
+
     public PaginatedResponse<PermitOverviewDTO> getAllPermits(Map<String, Object> parameters) {
         Pageable pageRequest = PageRequestExtractor.extract(parameters);
         PaginatedResponse<Permit> response = repository.findAll(Permit.class, PermitSpecification.forParams(parameters).withAccessFilter(), pageRequest);
@@ -34,16 +38,16 @@ public class PermitService extends AbstractEmployeeService {
         return response.mapTo(PermitOverviewDTO::new);
     }
 
-    public Long applicantStartPermit(Permit permit) {
-        prepareApplicantStartPermit(permit);
+    public Long applicantCreatePermit(Permit permit) {
+        preparePermitApplicant(permit);
         return repository.save(permit).getId();
     }
 
-    public Long applicantReStartPermit(StarterDTO dto) {
+    public Long applicantReStartPermit(PermitStarterDTO dto) {
         Permit permit = repository.findById(dto.getPermitId()).get();
         permit.setApplicantId(dto.getEmployeeId());
         permit.setCompanyId(permit.getCompany().getId());
-        prepareApplicantStartPermit(permit);
+        preparePermitApplicant(permit);
         return repository.save(permit).getId();
     }
 
@@ -54,7 +58,7 @@ public class PermitService extends AbstractEmployeeService {
         return permit.get();
     }
 
-    public Long adminStartPermit(StarterDTO dto) {
+    public Long adminStartPermit(PermitStarterDTO dto) {
         return repository.save(adminStartsPermit(dto)).getId();
     }
 
@@ -70,7 +74,6 @@ public class PermitService extends AbstractEmployeeService {
 
         StopPermit stopPermit = permit.getStopPermits().stream().filter(x -> x.getAssistant() == null)
                 .findFirst().get();
-
 
         // TODO take the assistant from logged in users or sending id of the user.
         stopPermit.setAssistant(assistant);
@@ -106,48 +109,42 @@ public class PermitService extends AbstractEmployeeService {
         return repository.save(permit).getId();
     }
 
-    private void prepareApplicantStartPermit(Permit permit) {
-
-        Date currentDate = new Date();
-
-        // convert date to calendar
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-
-        // manipulate date
-        c.add(Calendar.DATE, 6);
+    private void preparePermitApplicant(Permit permit) {
 
         StartPermit startPermit = new StartPermit();
         StopPermit stopPermit = new StopPermit();
-        stopPermit.setEndDate(c.getTime());
+        stopPermit.setEndDate(permit.getEndDate());
         permit.getStopPermits().add(stopPermit);
 
         Company company = companyService.getCompany(permit.getCompanyId());
+        Location location = locationRepository.getById(permit.getLocationId());
+
         startPermit.setAssistant(null);
         startPermit.setStatus(PermitStatus.PENDING);
         // TODO take the creater from logged in users or sending id of the user.
         startPermit.setApplicant(getEmployee(permit.getApplicantId()));
-        startPermit.setStartDate(new Date());
+        startPermit.setStartDate(permit.getStartDate());
         permit.getStartPermits().add(startPermit);
         permit.setCompany(company);
+        permit.setLocation(location);
     }
 
 
-    private Permit adminStartsPermit(StarterDTO starterDTO) {
-        Permit permit = repository.findById(starterDTO.getPermitId()).get();
+    private Permit adminStartsPermit(PermitStarterDTO permitStarterDTO) {
+        Permit permit = repository.findById(permitStarterDTO.getPermitId()).get();
 
-        Employee assistant = employeeservice.getEmployee(starterDTO.getEmployeeId());
+        Employee assistant = employeeservice.getEmployee(permitStarterDTO.getEmployeeId());
 
         StartPermit startPermit = permit.getStartPermits().stream().filter(x -> x.getAssistant() == null)
                 .findFirst().get();
         StartPermit cloned = startPermit.getClone();
 
         cloned.setAssistant(assistant);
-        cloned.setStatus(starterDTO.getStatus());
+        cloned.setStatus(permitStarterDTO.getStatus());
 
         permit.getStartPermits().remove(startPermit);
         permit.getStartPermits().add(cloned);
-        permit.setStatus(starterDTO.getStatus());
+        permit.setStatus(permitStarterDTO.getStatus());
 
         return permit;
     }

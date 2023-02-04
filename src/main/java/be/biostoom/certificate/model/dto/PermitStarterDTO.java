@@ -6,7 +6,7 @@ import be.biostoom.certificate.enumerated.PermitStatus;
 import lombok.Data;
 
 @Data
-public class StarterDTO implements Serializable {
+public class PermitStarterDTO implements Serializable {
 
 	/**
 	 * 

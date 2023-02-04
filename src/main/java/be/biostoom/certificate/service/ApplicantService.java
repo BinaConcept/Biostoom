@@ -1,6 +1,6 @@
 package be.biostoom.certificate.service;
 
-import be.biostoom.certificate.model.dto.StarterDTO;
+import be.biostoom.certificate.model.dto.PermitStarterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ public class ApplicantService {
 		return introductionRepository.findAll().get(0);
 	}
 
-	public Long save(Permit permit) {
-		return permitService.applicantStartPermit(permit);
+	public Long createPermit(Permit permit) {
+		return permitService.applicantCreatePermit(permit);
 	}
 
 	public Long applicantStopPermit(ApplicantStopPermitDTO dto) {
@@ -31,7 +31,7 @@ public class ApplicantService {
 	}
 
 
-	public Long applicantRestartsPermit(StarterDTO dto) {
+	public Long applicantRestartsPermit(PermitStarterDTO dto) {
 		return permitService.applicantReStartPermit(dto);
 	}
 }

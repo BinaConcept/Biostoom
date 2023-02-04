@@ -16,6 +16,8 @@ public class PermitOverviewDTO implements Serializable {
 
     private String company;
 
+    private String location;
+
     List<Date> startDates = new ArrayList<>();
     List<Date> endDates = new ArrayList<>();
 
@@ -23,8 +25,8 @@ public class PermitOverviewDTO implements Serializable {
         this.id = permit.getId();
         this.status = permit.getStatus();
         this.company = permit.getCompany().getName();
+        this.location = permit.getLocation().getName();
         this.perpareDates(permit);
-
     }
 
     private void perpareDates(Permit permit) {
