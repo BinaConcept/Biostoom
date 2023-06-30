@@ -46,7 +46,7 @@ public class Employee implements Serializable {
 	@Email(message = "Ongeldig e-mail.")
 	private String email;
 
-	@Pattern(regexp = "^\\d{10}$", message = "Ongeldig gsmnummer.")
+	@Pattern(regexp = "^\\d{10}$", message = "Ongeldig gsmnummer 0000/000 123")
 	private String gsm;
 
 	@Transient

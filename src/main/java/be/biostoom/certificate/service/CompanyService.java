@@ -2,6 +2,7 @@ package be.biostoom.certificate.service;
 
 import java.util.List;
 
+import be.biostoom.certificate.model.Employee;
 import be.biostoom.certificate.model.dto.ListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,4 +47,11 @@ public class CompanyService {
 	public List<ListItem> getCompaniesListItems() {
 		return repository.getCompaniesListItems();
 	}
+
+
+	public Company save(Company company) {
+		Company savedCompany = repository.save(company);
+		return savedCompany;
+	}
+
 }

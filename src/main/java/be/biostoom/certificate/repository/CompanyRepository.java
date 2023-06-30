@@ -14,6 +14,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 	Company findByEmailIgnoreCase(String email);
 
-    @Query("select new be.biostoom.certificate.model.dto.ListItem(c.id, c.name)from Company c  order by c.name")
+    @Query("select new be.biostoom.certificate.model.dto.ListItem(c.id, c.name, c.gsm)from Company c  order by c.name")
     List<ListItem> getCompaniesListItems();
 }

@@ -2,6 +2,7 @@ package be.biostoom.certificate.controller;
 
 import java.util.List;
 
+import be.biostoom.certificate.model.Employee;
 import be.biostoom.certificate.model.dto.ListItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import be.biostoom.certificate.model.Company;
 import be.biostoom.certificate.service.CompanyService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}/companies")
@@ -35,6 +38,12 @@ public class CompanyController {
 	@PutMapping("/{id}")
     public Company update(@PathVariable long id, @RequestBody Company company){
         return service.update(id, company);
+    }
+
+    @PostMapping
+    public Company save(@RequestBody @Valid Company company)
+    {
+        return service.save(company);
     }
 
     @GetMapping("/{id}")

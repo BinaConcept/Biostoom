@@ -28,23 +28,23 @@ public class DataLoader implements CommandLineRunner {
     public void insertCompany() {
         Employee arsal = new Employee();
         arsal.setId(1);
-        arsal.setFirstName("Arsal");
-        arsal.setLastName("Bulent");
+        arsal.setFirstName("Dirk");
+        arsal.setLastName("Maes");
         arsal.setGsm("0494527365");
-        arsal.setEmail("arsal@biostoom.be");
+        arsal.setEmail("Dirk@biostoom.be");
         arsal.setHasReadSiteIntroduction(true);
 
         Employee atif = new Employee();
         atif.setId(1);
-        atif.setFirstName("Atif");
-        atif.setLastName("Khan");
+        atif.setFirstName("Freddy");
+        atif.setLastName("Houben");
         atif.setGsm("0494527368");
         atif.setEmail("external@external.be");
         atif.setHasReadSiteIntroduction(true);
 
-        Company biostoom = new Company(1,"Biostoom","somestreetname","24",
+        Company biostoom = new Company(1,"Bionerga","somestreetname","24",
                 "","2400","Beringen","Belgie","013 54 65 57", "095 86 88 59",
-                "023 98 98 98", "email@biostoom.be", false, "biostoom", true,new HashSet<>(),new HashSet<>());
+                "023 98 98 98", "email@biostoom.be", false, "bionerga", true,new HashSet<>(),new HashSet<>());
 
         Company external = new Company(2,"External","somestreetname","24",
                 "","2400","Mol","Belgie","013 54 65 57", "095 86 88 59",
@@ -63,10 +63,15 @@ public class DataLoader implements CommandLineRunner {
 
     public void insertLocations(){
         List<Location> locations = new ArrayList<>(Arrays.asList(
-                new Location((long) 1, "Boiler ", new HashSet<>()),
-                new Location((long) 3, "Buiten Terrein ", new HashSet<>()),
-                new Location((long)4, "Buiten Installatie", new HashSet<>()),
-                new Location((long)5, "Voor Behandeling", new HashSet<>())
+                new Location(null, "Boiler", new HashSet<>()),
+                new Location(null, "Buiten installatie", new HashSet<>()),
+                new Location(null, "Buiten terrein", new HashSet<>()),
+                new Location(null, "RGR", new HashSet<>()),
+                new Location(null, "Sortering", new HashSet<>()),
+                new Location(null, "Tippinghall", new HashSet<>()),
+                new Location(null, "Turbine gebouw", new HashSet<>()),
+                new Location(null, "Voorbehandeling", new HashSet<>())
+
         ));
         locationRepository.saveAll(locations);
     }

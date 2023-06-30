@@ -72,10 +72,14 @@ public class Permit implements Serializable {
 	Company company;
 
 	@Transient
+	private Long externalId;
+
+	@Transient
 	private Long applicantId;
 
 	@Transient
 	private Long companyId;
+	
 
 	@Transient
 	private Long locationId;

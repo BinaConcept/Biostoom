@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
-    @Query("select new be.biostoom.certificate.model.dto.ListItem(l.id, l.name)from Location l")
+    @Query("select new be.biostoom.certificate.model.dto.ListItem(l.id, l.name, '')from Location l")
     List<ListItem> findAllLocations();
 }

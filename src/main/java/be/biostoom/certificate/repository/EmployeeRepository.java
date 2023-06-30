@@ -17,6 +17,6 @@ public interface EmployeeRepository  extends PagingAndSortingRepository<Employee
 
 	Employee findByEmailIgnoreCase(String email);
 
-	@Query("select new be.biostoom.certificate.model.dto.ListItem(e.id, e.firstName)from Employee e where e.company.id = ?1 order by e.firstName")
+	@Query("select new be.biostoom.certificate.model.dto.ListItem(e.id, e.firstName, e.gsm)from Employee e where e.company.id = ?1 order by e.firstName")
 	List<ListItem> finAllByCompanyId(Long id);
 }
